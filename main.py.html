@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>main.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">locust </span><span class="s0">import </span><span class="s1">HttpUser</span><span class="s2">, </span><span class="s1">between</span><span class="s2">, </span><span class="s1">task</span>
+
+
+<span class="s0">class </span><span class="s1">WebsiteUser</span><span class="s2">(</span><span class="s1">HttpUser</span><span class="s2">):</span>
+    <span class="s1">wait_time </span><span class="s2">= </span><span class="s1">between</span><span class="s2">(</span><span class="s3">5</span><span class="s2">, </span><span class="s3">15</span><span class="s2">)</span>
+
+    <span class="s2">@</span><span class="s1">task</span>
+    <span class="s0">def </span><span class="s1">logout</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">client</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s4">&quot;/v2/user/logout&quot;</span><span class="s2">)</span>
+
+    <span class="s2">@</span><span class="s1">task</span>
+    <span class="s0">def </span><span class="s1">login</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">client</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s4">&quot;/v2/user/login?username=metin&amp;password=123456781&quot;</span><span class="s2">)</span>
+
+    <span class="s2">@</span><span class="s1">task</span>
+    <span class="s0">def </span><span class="s1">get_user_info</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">client</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s4">&quot;/v2/user/metin&quot;</span><span class="s2">)</span>
+
+    <span class="s2">@</span><span class="s1">task</span>
+    <span class="s0">def </span><span class="s1">user_create</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s1">payload </span><span class="s2">= {</span>
+            <span class="s4">&quot;id&quot;</span><span class="s2">: </span><span class="s3">2334455</span><span class="s2">,</span>
+            <span class="s4">&quot;username&quot;</span><span class="s2">: </span><span class="s4">&quot;metin2&quot;</span><span class="s2">,</span>
+            <span class="s4">&quot;firstName&quot;</span><span class="s2">: </span><span class="s4">&quot;mete&quot;</span><span class="s2">,</span>
+            <span class="s4">&quot;lastName&quot;</span><span class="s2">: </span><span class="s4">&quot;torun&quot;</span><span class="s2">,</span>
+            <span class="s4">&quot;email&quot;</span><span class="s2">: </span><span class="s4">&quot;metetorun@gmail.com&quot;</span><span class="s2">,</span>
+            <span class="s4">&quot;password&quot;</span><span class="s2">: </span><span class="s4">&quot;56789&quot;</span><span class="s2">,</span>
+            <span class="s4">&quot;phone&quot;</span><span class="s2">: </span><span class="s4">&quot;555789988&quot;</span><span class="s2">,</span>
+            <span class="s4">&quot;userStatus&quot;</span><span class="s2">: </span><span class="s3">3</span>
+        <span class="s2">}</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">client</span><span class="s2">.</span><span class="s1">post</span><span class="s2">(</span><span class="s4">&quot;/v2/user&quot;</span><span class="s2">, </span><span class="s1">json</span><span class="s2">=</span><span class="s1">payload</span><span class="s2">)</span>
+
+    <span class="s2">@</span><span class="s1">task</span>
+    <span class="s0">def </span><span class="s1">delete_user</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">client</span><span class="s2">.</span><span class="s1">delete</span><span class="s2">(</span><span class="s4">&quot;/v2/user/metin2&quot;</span><span class="s2">)</span>
+
+    <span class="s2">@</span><span class="s1">task</span>
+    <span class="s0">def </span><span class="s1">update_user</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s1">payload2 </span><span class="s2">= {</span>
+            <span class="s4">&quot;id&quot;</span><span class="s2">: </span><span class="s3">23545546</span><span class="s2">,</span>
+            <span class="s4">&quot;username&quot;</span><span class="s2">: </span><span class="s4">&quot;metin&quot;</span><span class="s2">,</span>
+            <span class="s4">&quot;firstName&quot;</span><span class="s2">: </span><span class="s4">&quot;metin&quot;</span><span class="s2">,</span>
+            <span class="s4">&quot;lastName&quot;</span><span class="s2">: </span><span class="s4">&quot;yılmaz&quot;</span><span class="s2">,</span>
+            <span class="s4">&quot;email&quot;</span><span class="s2">: </span><span class="s4">&quot;testsahibinden2@gmail.com&quot;</span><span class="s2">,</span>
+            <span class="s4">&quot;password&quot;</span><span class="s2">: </span><span class="s4">&quot;12345&quot;</span><span class="s2">,</span>
+            <span class="s4">&quot;phone&quot;</span><span class="s2">: </span><span class="s4">&quot;5434565676&quot;</span><span class="s2">,</span>
+            <span class="s4">&quot;userStatus&quot;</span><span class="s2">: </span><span class="s3">4</span>
+        <span class="s2">}</span>
+        <span class="s1">header_payload</span><span class="s2">={</span>
+            <span class="s4">&quot;accept&quot;</span><span class="s2">:</span><span class="s4">&quot;application/json&quot;</span><span class="s2">,</span>
+            <span class="s4">&quot;Content-Type&quot;</span><span class="s2">:</span><span class="s4">&quot;application/json&quot;</span>
+
+        <span class="s2">}</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">client</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s4">&quot;/v2/user/metin23&quot;</span><span class="s2">,</span><span class="s1">json</span><span class="s2">=</span><span class="s1">payload2</span><span class="s2">,</span><span class="s1">headers</span><span class="s2">=</span><span class="s1">header_payload</span><span class="s2">)</span>
+
+</pre>
+</body>
+</html>
